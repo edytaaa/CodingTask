@@ -1,9 +1,6 @@
 package second_ComputerNetwork;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class ComputerNetwork implements Graph {
     private Map<String, Map<String, Long>> graph = new HashMap<>();
@@ -18,7 +15,7 @@ class ComputerNetwork implements Graph {
 
 
     @Override
-    public void addEdge(String firstServer, String secondServer, Long ping) {
+    public void addEdge(String firstServer, String secondServer, long ping) {
         Map<String, Long> nestedMap = graph.computeIfAbsent(firstServer, k -> new HashMap<>());
         nestedMap.put(secondServer, ping);
         //OR:
@@ -43,8 +40,8 @@ class ComputerNetwork implements Graph {
             Map<String, Long> nestedMap = graph.get(ip1);
             for (String ip2 : nestedMap.keySet()) {
                 if (ping == nestedMap.get(ip2)) {
-                    String[] adge = {ip1, ip2};
-                    result.add(adge);
+                    String[] edge = {ip1, ip2};
+                    result.add(edge);
                 }
             }
         }
@@ -52,25 +49,43 @@ class ComputerNetwork implements Graph {
     }
 
 
-    @Override //Only beginning method
-    public Path getPath(String firstServer, String secondServer) {
-        Path path = new Path();
-        path.addServer(firstServer, 0);
-        return getPath(path, firstServer, secondServer);
-    }
+    @Override //Dijkstra algorithm
+    public List<String> getPath(String firstServer, String targetServer) {
+        Map<String, String> previous = new TreeMap<>();
+        Map<String, Long> minPings = new TreeMap<>();
+        minPings.put(firstServer, 0L);
 
-    private Path getPath(Path path, String currentServer, String lastServer) {
-        Map<String, Long> edges = graph.get(currentServer);
-        if (edges != null) {
-            for (Map.Entry<String, Long> nextServer : edges.entrySet()) {
-                path.addServer(nextServer.getKey(), nextServer.getValue());
-                if (nextServer.getKey().equals(lastServer)) {
-                    return path;
-                }else{
-                    return getPath(path, nextServer.getKey(), lastServer);
+        Comparator<String> comparator = (a, b) -> {
+            if (minPings.getOrDefault(a, Long.MAX_VALUE) < minPings.getOrDefault(b, Long.MAX_VALUE))
+                return -1;
+            else if (minPings.getOrDefault(a, Long.MAX_VALUE) > minPings.getOrDefault(b, Long.MAX_VALUE))
+                return 1;
+            else
+                return 0;
+        };
+
+        PriorityQueue<String> priorityQueue = new PriorityQueue<>(comparator);
+        priorityQueue.add(firstServer);
+        while (!priorityQueue.isEmpty()) {
+            String firstVertex = priorityQueue.poll();
+            Map<String, Long> edges = graph.get(firstVertex);
+            for (Map.Entry<String, Long> edge : edges.entrySet()) {
+                String secondVertex = edge.getKey();
+                long ping = edge.getValue();
+                long minPing = minPings.getOrDefault(firstVertex, Long.MAX_VALUE) + ping;
+                if (minPing < minPings.getOrDefault(secondVertex, Long.MAX_VALUE)) {
+                    previous.put(secondVertex, firstVertex);
+                    minPings.put(secondVertex, minPing);
+                    priorityQueue.add(secondVertex);
                 }
             }
         }
-        return null;
+
+        List<String> path = new ArrayList<>();
+        for (String vertex = targetServer; vertex != null; vertex = previous.get(vertex)) {
+            path.add(vertex);
+        }
+        Collections.reverse(path);
+        return path;
     }
 }

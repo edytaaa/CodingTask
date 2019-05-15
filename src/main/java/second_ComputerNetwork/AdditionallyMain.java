@@ -21,13 +21,13 @@ public class AdditionallyMain {
 
         //for instance 3:
         String input2 = "2.2.2.2";
-        long ping = 777L;
+        long ping = 777;
         computerNetwork.addEdge(input, input2, ping);
         Map<String, Long> result3 = computerNetwork.getVertex(input);
         System.out.println(result3.containsKey(input2));
         System.out.println(result3.containsKey(input));
         System.out.println(result3.containsValue(ping));
-        System.out.println(result3.containsValue(555L));
+        System.out.println(result3.containsValue(555));
         System.out.println(result3.size());
         System.out.println(result3.get(input2));
 
@@ -50,13 +50,25 @@ public class AdditionallyMain {
         }
 
         //for instance 5:
-        computerNetwork.addEdge("1.1.1.1", "2.2.2.2", 10L);
-        computerNetwork.addEdge("2.2.2.2", "3.3.3.3", 20L);
-        computerNetwork.addEdge("3.3.3.3", "4.4.4.4", 40L);
+        computerNetwork.addVertex("1.1.1.1");
+        computerNetwork.addVertex("2.2.2.2");
+        computerNetwork.addVertex("3.3.3.3");
+        computerNetwork.addVertex("4.4.4.4");
+        computerNetwork.addVertex("5.5.5.5");
 
-        Path path = computerNetwork.getPath("1.1.1.1", "4.4.4.4");
-        for (String server : path.getServers()) {
-            System.out.println(server);
-        }
+        computerNetwork.addEdge("1.1.1.1", "2.2.2.2", 1);
+        computerNetwork.addEdge("1.1.1.1", "3.3.3.3", 10);
+
+        computerNetwork.addEdge("2.2.2.2", "3.3.3.3", 15);
+        computerNetwork.addEdge("2.2.2.2", "4.4.4.4", 2);
+
+        computerNetwork.addEdge("4.4.4.4", "3.3.3.3", 7);
+        computerNetwork.addEdge("4.4.4.4", "5.5.5.5", 2);
+
+        computerNetwork.addEdge("5.5.5.5", "3.3.3.3", 4);
+
+        List<String> serverNames = computerNetwork.getPath("1.1.1.1", "3.3.3.3");
+        System.out.println(serverNames);
+
     }
 }

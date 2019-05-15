@@ -7,11 +7,11 @@ interface Graph {
 
     void addVertex(String ip);
 
-    void addEdge(String firstServer, String secondServer, Long pig);
+    void addEdge(String firstServer, String secondServer, long pig);
 
     Map<String, Long> getVertex(String ip);
 
     List<String[]> getEdge(long ping);
 
-    Path getPath(String firstServer, String secondServer);
+    List<String> getPath(String firstServer, String secondServer);
 }
