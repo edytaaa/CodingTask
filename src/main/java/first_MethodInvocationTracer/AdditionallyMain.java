@@ -10,9 +10,7 @@ public class AdditionallyMain {
         System.out.printf("catCount will be equals to %d \n", catCount);
 
         //for instance 2:
-        implementAlgorithm.add("cat");
-        implementAlgorithm.add("cat");
-        implementAlgorithm.add("cat");
+        implementAlgorithm.add("cat", "cat", "cat");
         int catCount2 = implementAlgorithm.count("cat");
         System.out.printf("catCount will be equals to %d \n", catCount2);
 

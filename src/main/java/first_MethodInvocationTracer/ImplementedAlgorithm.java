@@ -6,15 +6,20 @@ import java.util.Map;
 class ImplementedAlgorithm implements Algorithm {
     private Map<String, Integer> names = new HashMap<>();
 
+
     @Override
-    public void add(String input) {
-        names.merge(input, 1, Integer::sum); //OR: names.merge(input, 1, (a,b) -> a+b);
+    public void add(String...input) {
+        for (int i = 0; i < input.length; i++) {
+            names.merge(input[i], 1, Integer::sum); //OR: names.merge(input[i], 1, (a,b) -> a+b);
+        }
 //        //OR:
-//        Integer count = names.get(input);
-//        if (count == null) {
-//            names.put(input, 1);
-//        } else {
-//            names.put(input, count + 1);
+//        for (int i = 0; i < input.length; i++) {
+//            Integer count = names.get(input);
+//            if (count == null) {
+//                names.put(input[i], 1);
+//            } else {
+//                names.put(input[i], count + 1);
+//            }
 //        }
     }
 
