@@ -98,69 +98,70 @@ class ComputerNetwork implements Graph {
     }
 
 
-//    //Additionally - Dijkstra’s shortest path algorithm (in case when two or more paths are the shortest)
-//    void getPaths(String firstServer, String targetServer) {
-//        TreeMap<String, TreeSet<String>> previous = new TreeMap<>();
-//
-//        TreeMap<String, Long> minPings = new TreeMap<>();
-//        minPings.put(firstServer, 0l);
-//
-//        Comparator<String> comparator = getStringComparator(minPings);
-//
-//        PriorityQueue<String> priorityQueue = new PriorityQueue<>(comparator);
-//        priorityQueue.add(firstServer);
-//        while (!priorityQueue.isEmpty()) {
-//            String firstVertex = priorityQueue.poll();
-//            Map<String, Long> edges = graph.get(firstVertex);
-//            for (Map.Entry<String, Long> edge : edges.entrySet()) {
-//                String secondVertex = edge.getKey();
-//                long ping = edge.getValue();
-//                long minPing = minPings.getOrDefault(firstVertex, Long.MAX_VALUE) + ping;
-//                if (minPing < minPings.getOrDefault(secondVertex, Long.MAX_VALUE)) {
-//                    TreeSet<String> previouses = new TreeSet<>();
-//                    previouses.add(firstVertex);
-//                    previous.put(secondVertex, previouses);
-//                    minPings.put(secondVertex, minPing);
-//                    priorityQueue.add(secondVertex);
-//                } else if (minPing == minPings.getOrDefault(secondVertex, Long.MAX_VALUE)) {
-//                    TreeSet<String> previouses = previous.get(secondVertex);
-//                    previouses.add(firstVertex);
-//                    minPings.put(secondVertex, minPing);
-//                    priorityQueue.add(secondVertex);
-//                }
-//            }
-//        }
-//
-//        print(targetServer, previous, true);
-//    }
-//
-//    private Comparator<String> getStringComparator(TreeMap<String, Long> minPings) {
-//        return (a, b) -> {
-//            if (minPings.getOrDefault(a, Long.MAX_VALUE) < minPings.getOrDefault(b, Long.MAX_VALUE)) {
-//                return -1;
-//            } else if (minPings.getOrDefault(a, Long.MAX_VALUE) > minPings.getOrDefault(b, Long.MAX_VALUE)) {
-//                return 1;
-//            } else {
-//                return 0;
-//            }
-//        };
-//    }
-//
-//    void print(String vertex, TreeMap<String, TreeSet<String>> previous, boolean last) {
-//        TreeSet<String> previouses = previous.get(vertex);
-//        if (previouses != null) {
-//            for (String p : previouses) {
-//                print(p, previous, false);
-//                System.out.print(vertex + " ");
-//                if (last) {
-//                    System.out.println("");
-//                }
-//            }
-//        } else {
-//            System.out.print(vertex + " ");
-//            if (last) {
-//                System.out.println("");
-//            }
-//        }
-//    }
+    //Additionally - Dijkstra’s shortest path algorithm (in case when two or more paths are the shortest)
+    List<String> getPaths(String firstServer, String targetServer) {
+        TreeMap<String, TreeSet<String>> previous = new TreeMap<>();
+
+        TreeMap<String, Long> minPings = new TreeMap<>();
+        minPings.put(firstServer, 0l);
+
+        Comparator<String> comparator = getStringComparator(minPings);
+
+        PriorityQueue<String> priorityQueue = new PriorityQueue<>(comparator);
+        priorityQueue.add(firstServer);
+        while (!priorityQueue.isEmpty()) {
+            String firstVertex = priorityQueue.poll();
+            Map<String, Long> edges = graph.get(firstVertex);
+            for (Map.Entry<String, Long> edge : edges.entrySet()) {
+                String secondVertex = edge.getKey();
+                long ping = edge.getValue();
+                long minPing = minPings.getOrDefault(firstVertex, Long.MAX_VALUE) + ping;
+                if (minPing < minPings.getOrDefault(secondVertex, Long.MAX_VALUE)) {
+                    TreeSet<String> previouses = new TreeSet<>();
+                    previouses.add(firstVertex);
+                    previous.put(secondVertex, previouses);
+                    minPings.put(secondVertex, minPing);
+                    priorityQueue.add(secondVertex);
+                } else if (minPing == minPings.getOrDefault(secondVertex, Long.MAX_VALUE)) {
+                    TreeSet<String> previouses = previous.get(secondVertex);
+                    previouses.add(firstVertex);
+                    minPings.put(secondVertex, minPing);
+                    priorityQueue.add(secondVertex);
+                }
+            }
+        }
+
+        print(targetServer, previous, true);
+        return null;
+    }
+
+    private Comparator<String> getStringComparator(TreeMap<String, Long> minPings) {
+        return (a, b) -> {
+            if (minPings.getOrDefault(a, Long.MAX_VALUE) < minPings.getOrDefault(b, Long.MAX_VALUE)) {
+                return -1;
+            } else if (minPings.getOrDefault(a, Long.MAX_VALUE) > minPings.getOrDefault(b, Long.MAX_VALUE)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        };
+    }
+
+    void print(String vertex, TreeMap<String, TreeSet<String>> previous, boolean last) {
+        TreeSet<String> previouses = previous.get(vertex);
+        if (previouses != null) {
+            for (String p : previouses) {
+                print(p, previous, false);
+                System.out.print(vertex + " ");
+                if (last) {
+                    System.out.println("");
+                }
+            }
+        } else {
+            System.out.print(vertex + " ");
+            if (last) {
+                System.out.println("");
+            }
+        }
+    }
 }

@@ -75,24 +75,25 @@ public class AdditionallyMain {
         List<String> serverNames = computerNetwork.getPath("1.1.1.1", "3.3.3.3");
         System.out.println(serverNames);
 
-//        //Additionaly for instance 5:
-//        computerNetwork.addVertex("1.1.1.1");
-//        computerNetwork.addVertex("2.2.2.2");
-//        computerNetwork.addVertex("3.3.3.3");
-//        computerNetwork.addVertex("4.4.4.4");
-//        computerNetwork.addVertex("5.5.5.5");
-//
-//        computerNetwork.addEdge("1.1.1.1", "2.2.2.2", 1);
-//        computerNetwork.addEdge("1.1.1.1", "3.3.3.3", 10);
-//
-//        computerNetwork.addEdge("2.2.2.2", "3.3.3.3", 8);
-//        computerNetwork.addEdge("2.2.2.2", "4.4.4.4", 2);
-//
-//        computerNetwork.addEdge("4.4.4.4", "3.3.3.3", 7);
-//        computerNetwork.addEdge("4.4.4.4", "5.5.5.5", 2);
-//
-//        computerNetwork.addEdge("5.5.5.5", "3.3.3.3", 4);
-//
-//        computerNetwork.getPaths("1.1.1.1", "3.3.3.3");
+
+        //Additionaly for instance 5:
+        computerNetwork.addVertex("1.1.1.1");
+        computerNetwork.addVertex("2.2.2.2");
+        computerNetwork.addVertex("3.3.3.3");
+        computerNetwork.addVertex("4.4.4.4");
+        computerNetwork.addVertex("5.5.5.5");
+
+        computerNetwork.addEdge("1.1.1.1", "2.2.2.2", 1);
+        computerNetwork.addEdge("1.1.1.1", "3.3.3.3", 10);
+
+        computerNetwork.addEdge("2.2.2.2", "3.3.3.3", 8);
+        computerNetwork.addEdge("2.2.2.2", "4.4.4.4", 2);
+
+        computerNetwork.addEdge("4.4.4.4", "3.3.3.3", 7);
+        computerNetwork.addEdge("4.4.4.4", "5.5.5.5", 2);
+
+        computerNetwork.addEdge("5.5.5.5", "3.3.3.3", 4);
+
+        computerNetwork.getPaths("1.1.1.1", "3.3.3.3");
     }
 }

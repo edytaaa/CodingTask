@@ -253,4 +253,52 @@ class ComputerNetworkTest {
         );
     }
 
+
+    //Additionaly:
+    @Test
+    void addingEdgeAddingVertexAndGettingPathMethodShouldReturnShortestPathsBetweenTwoGivenIPs() {
+
+        //given
+        String input = "1.1.1.1";
+        String input2 = "2.2.2.2";
+        String input3 = "3.3.3.3";
+        String input4 = "4.4.4.4";
+        String input5 = "5.5.5.5";
+
+        long ping = 1;
+        long ping2 = 10;
+        long ping3 = 8;
+        long ping4 = 2;
+        long ping5 = 7;
+        long ping6 = 4;
+
+
+        //when
+        computerNetwork.addVertex(input);
+        computerNetwork.addVertex(input2);
+        computerNetwork.addVertex(input3);
+        computerNetwork.addVertex(input4);
+        computerNetwork.addVertex(input5);
+
+        computerNetwork.addEdge(input, input2, ping);
+        computerNetwork.addEdge(input, input3, ping2);
+
+        computerNetwork.addEdge(input2, input3, ping3);
+        computerNetwork.addEdge(input2, input4, ping4);
+
+        computerNetwork.addEdge(input4, input3, ping5);
+        computerNetwork.addEdge(input4, input5, ping4);
+
+        computerNetwork.addEdge(input5, input3, ping6);
+
+
+        //then
+        assertThat(computerNetwork.getPaths(input, input3), is(nullValue()));
+        //Answer:
+        //1.1.1.1 2.2.2.2 3.3.3.3
+        //1.1.1.1 2.2.2.2 4.4.4.4 5.5.5.5 3.3.3.3
+
+
+    }
+
 }
